@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>fb in js</title>
+  </head>
+
+  <body>
+    <h1>fibonacci series</h1>
+    <script>
+      var a = 0;
+      var b = 1;
+      console.log(a);
+      console.log(b);
+
+      for (i = 0; i <= 5; i++) {
+        console.log(a + b);
+        var temp = a;
+        a = b;
+        b = temp + b;
+      }
+    </script>
+  </body>
+</html>
