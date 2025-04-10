@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book SYSTEM "book.dtd">
+<book>
+<title>XML Development</title>
+<author>John Doe</author>
+<isbn>978-123456789</isbn>
+<publisher>TechBooks</publisher>
+<edition>2nd</edition>
+<price>29.99</price>
+</book>
