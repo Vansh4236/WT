@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dynamic Calendar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    select, button {
+      padding: 10px;
+      margin: 5px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    #calendar {
+      display: inline-block;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    #calendar th, #calendar td {
+      width: 40px;
+      height: 40px;
+      border: 1px solid #ddd;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    #calendar th {
+      background-color: #667eea;
+      color: white;
+    }
+
+    #calendar td:hover {
+      background-color: #e0e7ff;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>Dynamic Calendar</h2>
+  <div class="controls">
+    <select id="monthDropdown" onmouseover="generateCalendar()"></select>
+    <select id="yearDropdown" onmouseover="generateCalendar()"></select>
+    <button onclick="changeBackground()">Change Background Color</button>
+  </div>
+  <table id="calendar"></table>
+
+  <script>
+    const monthDropdown = document.getElementById('monthDropdown');
+    const yearDropdown = document.getElementById('yearDropdown');
+    const calendar = document.getElementById('calendar');
+
+    // Step 2: Populate dropdowns
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    for (let i = 0; i < 12; i++) {
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.text = monthNames[i];
+      monthDropdown.appendChild(opt);
+    }
+
+    const currentYear = new Date().getFullYear();
+    for (let i = currentYear - 50; i <= currentYear + 50; i++) {
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.text = i;
+      yearDropdown.appendChild(opt);
+    }
+
+    // Set current month and year as default
+    monthDropdown.value = new Date().getMonth();
+    yearDropdown.value = new Date().getFullYear();
+
+    // Step 3: Generate calendar
+    function generateCalendar() {
+      const month = parseInt(monthDropdown.value);
+      const year = parseInt(yearDropdown.value);
+
+      calendar.innerHTML = "";
+
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const firstDay = new Date(year, month, 1).getDay();
+
+      const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const headerRow = document.createElement("tr");
+
+      for (let day of days) {
+        const th = document.createElement("th");
+        th.textContent = day;
+        headerRow.appendChild(th);
+      }
+
+      calendar.appendChild(headerRow);
+
+      let date = 1;
+      for (let i = 0; i < 6; i++) {
+        const row = document.createElement("tr");
+        for (let j = 0; j < 7; j++) {
+          const cell = document.createElement("td");
+          if (i === 0 && j < firstDay) {
+            cell.textContent = "";
+          } else if (date > daysInMonth) {
+            cell.textContent = "";
+          } else {
+            cell.textContent = date;
+            date++;
+          }
+          row.appendChild(cell);
+        }
+        calendar.appendChild(row);
+        if (date > daysInMonth) break;
+      }
+    }
+
+    // Step 4: Change background color
+    function changeBackground() {
+      const colors = ["#f9fafb", "#ffe4e6", "#dbeafe", "#fef9c3", "#ccfbf1", "#f0f9ff"];
+      document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    // Step 5: Add listeners for dropdowns
+    monthDropdown.addEventListener("change", generateCalendar);
+    yearDropdown.addEventListener("change", generateCalendar);
+
+    // Step 6: Also triggered on hover by onmouseover in HTML
+
+    // Initial load
+    generateCalendar();
+  </script>
+</body>
+</html>
+
